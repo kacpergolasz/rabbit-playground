@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  broadcaster:
+    image: python:3.12.0-bookworm
+    build: ./broadcaster
+    volumes:
+      - ./broadcaster:/app
+    depends_on:
+      - rabbit
+
+
+  receiver:
+    image: python:3.12.0-bookworm
+    build: ./receiver
+    volumes:
+      - ./receiver:/app
+    depends_on:
+      - rabbit
+
+
+  rabbit:
+    image: rabbitmq:3.12
+    ports:
+      - "5672:5672" # tcp
+      - "15692:15692" # prometheus
+      - "25672:25672"
